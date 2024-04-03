@@ -7,27 +7,27 @@ function ExpensePage() {
     const [expenses, setExpenses] = useState([]);
     const [editingExpense, setEditingExpense] = useState(null);
 
-    // useEffect(() => {
-    //     // Fetch expenses on component mount
-    //     getExpenses();
-    // }, []);
+    useEffect(() => {
+        // Fetch expenses on component mount
+        getExpenses();
+    }, []);
 
-    // const getExpenses = async () => {
-    //     try {
-    //         const userId = JSON.parse(localStorage.getItem('user')).userId;
-    //         const response = await axios.get('http://localhost:8000/expense', {
-    //             data: { userId },
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-    //         const data = response.data;
-    //         console.log(data);
-    //         setExpenses(data.expenses);
-    //     } catch (error) {
-    //         console.error('Error fetching expenses:', error);
-    //     }
-    // };
+    const getExpenses = async () => {
+        try {
+            const userId = JSON.parse(localStorage.getItem('user')).userId;
+            const response = await axios.get(`http://localhost:8000/expense/${userId}`, {
+                data: { userId },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = response.data;
+            console.log(data);
+            setExpenses(data.expenses);
+        } catch (error) {
+            console.error('Error fetching expenses:', error);
+        }
+    };
 
     const addExpense = async (expenseData) => {
         try {
@@ -76,7 +76,7 @@ function ExpensePage() {
     return (
         <div>
             <h1>Expense Tracker</h1>
-            {/* <ExpenseList expenses={expenses} onDelete={deleteExpense} onUpdate={setEditingExpense} /> */}
+            <ExpenseList expenses={expenses} onDelete={deleteExpense} onUpdate={setEditingExpense} />
             <ExpenseForm onSubmit={editingExpense ? updateExpense : addExpense} expense={editingExpense} />
         </div>
     );
