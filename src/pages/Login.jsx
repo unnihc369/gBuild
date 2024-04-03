@@ -16,7 +16,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log("hi");
         try {
             const response = await fetch('http://localhost:8000/auth/login', {
                 method: 'POST',

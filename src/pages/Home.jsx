@@ -2,6 +2,9 @@
 import React,{useState} from 'react';
 import './Home.css';
 import ExpensePage from './ExpensePage';
+import TestScorePage from './TestScorePage';
+
+
 import AttendancePage from './AttendancePage';
 
 function Home() {
@@ -14,7 +17,7 @@ function Home() {
     deadline: <h1>Deadline</h1>,
     attendance: <AttendancePage/>,
     expense: <ExpensePage/>,
-    testscores: <h1>Test Scores</h1>
+    testscores: <TestScorePage/>
   };
 
   const handleTabClick = (tab) => {
