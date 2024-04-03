@@ -6,6 +6,7 @@ import TestScorePage from './TestScorePage';
 
 
 import AttendancePage from './AttendancePage';
+import ChatPage from './ChatPage';
 
 function Home() {
   // Retrieve user data from localStorage
@@ -17,7 +18,9 @@ function Home() {
     deadline: <h1>Deadline</h1>,
     attendance: <AttendancePage/>,
     expense: <ExpensePage/>,
-    testscores: <TestScorePage/>
+    testscores: <TestScorePage/>,
+    chat:<ChatPage/>
+
   };
 
   const handleTabClick = (tab) => {
@@ -40,6 +43,7 @@ function Home() {
             <button className={activeTab === 'attendance' ? 'active' : ''} onClick={() => handleTabClick('attendance')}>Attendance</button>
             <button className={activeTab === 'expense' ? 'active' : ''} onClick={() => handleTabClick('expense')}>Expense Tracker</button>
             <button className={activeTab === 'testscores' ? 'active' : ''} onClick={() => handleTabClick('testscores')}>Test Scores</button>
+            <button className={activeTab === 'chat' ? 'active' : ''} onClick={() => handleTabClick('chat')}>chat</button>
           </div>
         </div>
       </div>
