@@ -2,6 +2,7 @@
 import React,{useState} from 'react';
 import './Home.css';
 import ExpensePage from './ExpensePage';
+import AttendancePage from './AttendancePage';
 
 function Home() {
   // Retrieve user data from localStorage
@@ -11,7 +12,7 @@ function Home() {
 
   const tabContents = {
     deadline: <h1>Deadline</h1>,
-    attendance: <h1>Attendance</h1>,
+    attendance: <AttendancePage/>,
     expense: <ExpensePage/>,
     testscores: <h1>Test Scores</h1>
   };
