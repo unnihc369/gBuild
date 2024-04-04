@@ -68,15 +68,19 @@ const FileUploadPage = () => {
         );
         // console.log(data);
         if(data){
+             setReloadFile(!reloadFile);
              toast({
                title: "your notes updated successfully",
-               status: "warning",
+               status: "success",
                duration: 4000,
                isClosable: true,
                position: "top",
              });
              return;
         }
+         setUrl("");
+         setTitle("");
+         
 
     }
 
@@ -89,9 +93,7 @@ const FileUploadPage = () => {
          if(data){
             // console.log(data);
             setUploadedFiles(data);
-            setReloadFile(!reloadFile);
-            setUrl('');
-            setTitle('');
+           
          }
     }
 

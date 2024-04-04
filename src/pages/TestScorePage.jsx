@@ -10,7 +10,7 @@ const TestScorePage = () => {
   const [marks, setMarks] = useState("");
   const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJrUHRMczZFQjc0ZHdyd1pqbThHUSIsImlhdCI6MTcxMjA3OTM4MiwiZXhwIjoxNzEyOTQzMzgyfQ.ZEFj7a27rO0Wz-2SN2N7vLehagFQ6MgZAEB7GCvtzR4`,
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
   };
   const handleSubmit = async (e) => {

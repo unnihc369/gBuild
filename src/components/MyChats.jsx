@@ -51,6 +51,7 @@ const MyChats = () => {
   useEffect(() => {
     alllchathanlder();
   }, [LoadAll]);
+  console.log(allChat);
 
   return (
     <Box
@@ -69,7 +70,7 @@ const MyChats = () => {
           my chats
         </Text>
         {/* <Button onClick={(e) => setGroup(!group)}>create group</Button> */}
-        <GroupChatModal  />
+        <GroupChatModal />
       </u>
       <Box overflowY={"scroll"} height={"550px"}>
         {allChat &&
@@ -86,8 +87,25 @@ const MyChats = () => {
               }}
               margin={"4px"}
             >
-              <h2>{el.chatname}</h2>{" "}
-              <p>{!el.isGroupChat && el.users[1].email}</p>{" "}
+              {/* console.log(el); */}
+              {/* <h2>{el.chatname}</h2>{" "} */}
+              {!el.isGroupChat && (
+                <div>
+                  <h2>
+                    {/* {console.log(JSON.parse(localStorage.getItem("user")).id)}
+                    {console.log(el.users[0])} */}
+                    {el.users[0].id == JSON.parse(localStorage.getItem("user")).id
+                      ? el.users[1].name
+                      : el.users[0].name}
+                  </h2>
+                  <p>
+                    {el.users[0].id == JSON.parse(localStorage.getItem("user")).id
+                      ? el.users[1].email
+                      : el.users[0].email}
+                  </p>
+                </div>
+              )}
+              {el.isGroupChat && <h2>{el.chatname}</h2>}
             </Box>
           ))}
       </Box>
