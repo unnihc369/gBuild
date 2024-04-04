@@ -16,7 +16,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("hi");
+        console.log(formData);
         try {
             const response = await fetch('http://localhost:8000/auth/login', {
                 method: 'POST',
@@ -34,7 +34,7 @@ function Login() {
 
             // Store the user data in localStorage
             localStorage.setItem('user', JSON.stringify(data.data));
-
+            localStorage.setItem("token", data.token);
             console.log('User logged in successfully:', data);
         } catch (error) {
             console.error('Error logging in:', error.message);

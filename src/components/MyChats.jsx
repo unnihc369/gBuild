@@ -2,9 +2,15 @@ import { Box, Text } from "@chakra-ui/layout";
 import GroupChatModal from "./GroupChatModal";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { ChatState } from "../context/ChatContext";
+import { Button } from "@chakra-ui/react";
 // import ProfileModal from "./ProfileModal";
 
 const MyChats = () => {
+   const { curChat, LoadAll, setCurChat, curMessage, setCurMessage } =
+     ChatState();
+  // console.log(curMessage);
+  
   const headers = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
     "Content-Type": "application/json",
@@ -19,14 +25,32 @@ const MyChats = () => {
       setallChat(data.data);
     }
   };
-  const handlergetMessages = async (chatId) => {
-    console.log("hi");
-    console.log(chatId);
+  const getallMessage = async (chatId) => {
+    // console.log(chatId);
+    if(!chatId){
+      console.log("please provide chat id");
+      return ;
+    }
+    const { data } = await axios.get("http://127.0.0.1:8000/message/getAll", {
+      params: { chatId: chatId },
+      headers: headers,
+    });
+    if(data){
+      setCurMessage(data.data);
+    }
   };
+  const handlergetMessages = async (chatId) => {
+   setCurChat(chatId);
+   getallMessage(chatId.id);
+  };
+
+  const praveen=(is)=>{
+     is();
+  }
 
   useEffect(() => {
     alllchathanlder();
-  }, []);
+  }, [LoadAll]);
 
   return (
     <Box
@@ -44,6 +68,8 @@ const MyChats = () => {
         <Text fontSize="28px" fontFamily="Work sans">
           my chats
         </Text>
+        {/* <Button onClick={(e) => setGroup(!group)}>create group</Button> */}
+        <GroupChatModal  />
       </u>
       <Box overflowY={"scroll"} height={"550px"}>
         {allChat &&
@@ -56,7 +82,7 @@ const MyChats = () => {
               borderRadius={"10px"}
               onClick={(e) => {
                 e.preventDefault();
-                handlergetMessages(el.id);
+                handlergetMessages(el);
               }}
               margin={"4px"}
             >

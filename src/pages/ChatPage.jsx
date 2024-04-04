@@ -2,8 +2,11 @@ import Chatbox from "../components/Chatbox.jsx";
 import GroupChatModal from "../components/GroupChatModal.jsx";
 import MyChats from "../components/MyChats.jsx";
 import SideDrawer from "../components/SideDrawer.jsx";
+// import { ChatState } from "../context/ChatContext";
 
 const ChatPage = () => {
+  // const { curChat, setCurChat } = ChatState();
+  // console.log(curChat);
   return (
     <div style={{ width: "100%" }}>
       <SideDrawer />
@@ -17,7 +20,7 @@ const ChatPage = () => {
         }}
       >
         <MyChats />
-        
+
         <Chatbox />
       </div>
     </div>

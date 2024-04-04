@@ -3,46 +3,62 @@ import { Input } from "@chakra-ui/input";
 import { Box, Text } from "@chakra-ui/layout";
 import { messages } from "../data/message";
 import "./style.css";
-import { Avatar, Tooltip } from "@chakra-ui/react";
+import { Avatar, Button, Tooltip } from "@chakra-ui/react";
+import { ChatState } from "../context/ChatContext";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Chatbox = () => {
-  const isSameSenderMargin = (m, i) => {
-    if (
-      i < messages.length - 1 &&
-      messages[i + 1].sender._id === m.sender._id &&
-      messages[i].sender._id !== "1"
-    )
-      return 33;
-    else if (
-      (i < messages.length - 1 &&
-        messages[i + 1].sender._id !== m.sender._id &&
-        messages[i].sender._id !== "1") ||
-      (isLastMessage(i) && messages[i].sender._id !== "1")
-    )
-      return 0;
-    else return "auto";
+  const [content,setcontent]=useState('');
+   const { curChat, setCurChat ,curMessage,setCurMessage} = ChatState();
+  //  console.log(curChat);
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
   };
+// console.log(curChat);
+const getallMessage = async (chatId) => {
 
-  const isSameSender = (m, i) => {
-    return (
-      i < messages.length - 1 &&
-      (messages[i + 1].sender._id !== m.sender._id ||
-        messages[i + 1].sender._id == undefined) &&
-      messages[i].sender._id !== "1"
-    );
-  };
+  if (!chatId) {
+    console.log("please provide chat id");
+    return;
+  }
+  const { data } = await axios.get("http://127.0.0.1:8000/message/getAll", {
+    params: { chatId: chatId },
+    headers: headers,
+  });
+  if (data) {
+    setCurMessage(data.data);
+  }
+};
 
-  const isLastMessage = (i) => {
-    return (
-      i == messages.length - 1 &&
-      messages[messages.length - 1].sender._id !== "1" &&
-      messages[messages.length - 1].sender._id
-    );
-  };
+const handleSubmit=async(e)=>{
+  e.preventDefault();
+  const userId=JSON.parse(localStorage.getItem('user')).id;
+  if(!curChat.id||!content||!userId){
+     window.alert("please provide all document");
+     return;
+  }
+  const { data } = await axios.post("http://127.0.0.1:8000/message/sendMsg", {
+    chatId: curChat.id,
+    content: content,
+  },
+  {
+    headers:headers
+  });
 
-  const isSameUser = (m, i) => {
-    return i > 0 && messages[i - 1].sender._id === m.sender._id;
-  };
+  if(data){
+    getallMessage(curChat.id);
+  }
+  setcontent('');
+
+}
+
+  // useEffect(() => {
+  //       getallMessage();
+    
+  // }, [curChat])
+  
 
   return (
     <Box
@@ -52,11 +68,12 @@ const Chatbox = () => {
       p={3}
       bg="white"
       w="68%"
+      height={"600px"}
       borderRadius="lg"
       borderWidth="1px"
     >
       <Text fontSize="3xl" pb={3} fontFamily="Work sans">
-        User we are chatting
+        {curChat.chatname}
       </Text>
       <Box
         d="flex"
@@ -65,50 +82,54 @@ const Chatbox = () => {
         p={3}
         bg="#E8E8E8"
         w="100%"
-        h="100%"
+        h="450px"
         borderRadius="lg"
-        overflowY="hidden"
+        overflowY="scroll"
       >
-        {messages.map((m, i) => (
-          <div className="messages">
-            {(isSameSender(m, i) || isLastMessage(i)) && (
-              <Tooltip label={m.sender.name} placement="bottom-start" hasArrow>
-                <Avatar
-                  mt="7px"
-                  mr={1}
-                  size="sm"
-                  cursor="pointer"
-                  name={m.sender.name}
-                  // src={m.sender.pic}
-                />
-              </Tooltip>
-            )}
-            <span
-              style={{
-                marginLeft: `${m.sender._id === "1" ? `auto` : `0`}`,
-                backgroundColor: `${
-                  m.sender._id === "1" ? "#BEE3F8" : "#B9F5D0"
-                }`,
-                marginLeft: isSameSenderMargin(m, i),
-                marginTop: isSameUser(m, i) ? 3 : 10,
-                borderRadius: "20px",
-                padding: "8px 15px",
-                maxWidth: "75%",
-              }}
-            >
-              {m.content}
-            </span>
-          </div>
-        ))}
-
-        <FormControl id="first-name" isRequired mt={3}>
-          <Input
-            variant="filled"
-            bg="#E0E0E0"
-            placeholder="Enter a message.."
-          />
-        </FormControl>
+        {curMessage &&
+          curMessage.map((m, i) => (
+            <div className="messages" style={{"margin":"2px"}}>
+              {m.sender !== JSON.parse(localStorage.getItem("user")).id && (
+                <Tooltip label={m.sender} placement="bottom-start" hasArrow>
+                  <Avatar
+                    mt="7px"
+                    mr={1}
+                    size="sm"
+                    cursor="pointer"
+                    name={m.sender.name}
+                    // src={m.sender.pic}
+                  />
+                </Tooltip>
+              )}
+              <span
+                style={{
+                  marginLeft: `${
+                    m.sender === JSON.parse(localStorage.getItem("user")).id
+                      ? `auto`
+                      : `0`
+                  }`,
+                  backgroundColor: `${
+                    m.sender === JSON.parse(localStorage.getItem("user")).id
+                      ? "#BEE3F8"
+                      : "#B9F5D0"
+                  }`,
+                  // marginLeft: isSameSenderMargin(m, i),
+                  // marginTop: isSameUser(m, i) ? 3 : 10,
+                  borderRadius: "20px",
+                  padding: "8px 15px",
+                  maxWidth: "75%",
+                }}
+              >
+                {m.content}
+              </span>
+            </div>
+          ))}
+          
       </Box>
+      <FormControl id="first-name" isRequired mt={3}>
+        <Input width={"85%"}  marginRight={"5px"} variant="filled" bg="#E0E0E0" placeholder="Enter a message.." onChange={(e)=>setcontent(e.target.value)} />
+        <Button onClick={(e)=>{handleSubmit(e)}}>send</Button>
+      </FormControl>
     </Box>
   );
 };
