@@ -62,7 +62,7 @@ const TestScorePage = () => {
   //   console.log(testScore);
 
   useEffect(() => {
-    fetchAllScore();
+    // fetchAllScore();
   }, [changes]);
 
   return (
