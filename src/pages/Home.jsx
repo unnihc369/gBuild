@@ -6,6 +6,7 @@ import TestScorePage from './TestScorePage';
 
 
 import AttendancePage from './AttendancePage';
+import DeadlinePage from './DeadLinePage';
 
 function Home() {
   // Retrieve user data from localStorage
@@ -14,7 +15,7 @@ function Home() {
   const [activeTab, setActiveTab] = useState('deadline');
 
   const tabContents = {
-    deadline: <h1>Deadline</h1>,
+    deadline: <DeadlinePage/>,
     attendance: <AttendancePage/>,
     expense: <ExpensePage/>,
     testscores: <TestScorePage/>
