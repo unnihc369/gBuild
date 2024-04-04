@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './DeadlinePage.css'
 
 function DeadlinePage() {
     const [taskName, setTaskName] = useState('');
@@ -21,7 +22,7 @@ function DeadlinePage() {
             const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
             if (!dateRegex.test(deadlineDate)) {
                 console.error('Invalid deadline date format. Use YYYY-MM-DD.');
-                return; 
+                return;
             }
             const response = await axios.post('http://localhost:8000/deadline', {
                 userId,
@@ -54,22 +55,28 @@ function DeadlinePage() {
     }, [userId]);
 
     return (
-        <div>
-            <h2>Add Deadline</h2>
-            <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder="Task Name" />
-            <input type="date" value={deadlineDate} onChange={(e) => setDeadlineDate(e.target.value)} placeholder="Deadline Date" />
-            <button onClick={addDeadline}>Add Deadline</button>
+        <div className="">
+            <div className="add-deadline-container">
+                <h2>Add Deadline</h2>
+                <div className="deadlineform">
+                <input type="text" value={taskName} onChange={(e) => setTaskName(e.target.value)} className="input-field" placeholder="Task Name" />
+                <input type="date" value={deadlineDate} onChange={(e) => setDeadlineDate(e.target.value)} className="input-field" placeholder="Deadline Date" />
+                <button onClick={addDeadline} className="button">Add Deadline</button>
+                </div>
+            </div>
 
-            <h2>Today's Deadlines</h2>
-            <ul>
-                {deadlines.map((deadline) => (
-                    <li key={deadline.id}>
-                        <p>Task: {deadline.taskName}</p>
-                        {/* <p>Deadline Date: {deadline.deadlineDate}</p> */}
-                        <button onClick={() => deleteDeadline(deadline.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            <div>
+                <h2>Today's Deadlines</h2>
+                <ul className="deadlines-list">
+                    {deadlines.map((deadline) => (
+                        <li key={deadline.id} className="deadline-item">
+                            <p>Task: {deadline.taskName}</p>
+                            {/* <p>Deadline Date: {deadline.deadlineDate}</p> */}
+                            <button onClick={() => deleteDeadline(deadline.id)} className="delete-button">Delete</button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     );
 }

@@ -1,0 +1,66 @@
+/* Container for the add deadline section */
+.add-deadline-container {
+    margin-bottom: 20px;
+}
+
+.deadlineform{
+    display: flex;
+    align-items: center;
+    width: 580px;
+    border-radius: 12px;
+    background-color: #fff;
+    justify-content: flex-start;
+    padding: 15px;
+    gap: 20px;
+}
+
+/* Style for the input fields */
+.input-field {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Style for the button */
+.button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover effect for the button */
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the list of deadlines */
+.deadlines-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Style for each deadline item */
+.deadline-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+/* Style for the delete button */
+.delete-button {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover effect for the delete button */
+.delete-button:hover {
+    background-color: #c82333;
+}

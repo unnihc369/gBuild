@@ -4,7 +4,9 @@ import './Home.css';
 import ExpensePage from './ExpensePage';
 import TestScorePage from './TestScorePage';
 import AttendancePage from './AttendancePage';
+import DeadlinePage from './DeadLinePage';
 import ChatPage from './ChatPage';
+import FileUploadPage from './FileUploadPage';
 
 function Home() {
   // Retrieve user data from localStorage
@@ -17,8 +19,8 @@ function Home() {
     attendance: <AttendancePage/>,
     expense: <ExpensePage/>,
     testscores: <TestScorePage/>,
-    chat:<ChatPage/>
-
+    chat:<ChatPage/>,
+    fileupload: <FileUploadPage/>,
   };
 
   const handleTabClick = (tab) => {
@@ -42,6 +44,7 @@ function Home() {
             <button className={activeTab === 'expense' ? 'active' : ''} onClick={() => handleTabClick('expense')}>Expense Tracker</button>
             <button className={activeTab === 'testscores' ? 'active' : ''} onClick={() => handleTabClick('testscores')}>Test Scores</button>
             <button className={activeTab === 'chat' ? 'active' : ''} onClick={() => handleTabClick('chat')}>chat</button>
+            <button className={activeTab === 'fileupload' ? 'active' : ''} onClick={() => handleTabClick('fileupload')}>Resourses</button>
           </div>
         </div>
       </div>
