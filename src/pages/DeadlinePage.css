@@ -3,10 +3,10 @@
     margin-bottom: 20px;
 }
 
-.deadlineform{
+.deadlineform {
     display: flex;
     align-items: center;
-    width: 580px;
+    width: 600px;
     border-radius: 12px;
     background-color: #fff;
     justify-content: flex-start;
@@ -19,6 +19,20 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    width: 200px;
+}
+
+.deadline-list{
+    height: 500px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 /* Style for the button */
@@ -40,6 +54,8 @@
 .deadlines-list {
     list-style: none;
     padding: 0;
+    height: 450px;
+    overflow-y: auto;
 }
 
 /* Style for each deadline item */

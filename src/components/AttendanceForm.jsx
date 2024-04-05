@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './AttendanceForm.css'; // Import your CSS file for styling
 
 function AttendanceForm() {
     const [semester, setSemester] = useState('');
     const [subject, setSubject] = useState('');
-    const userId = JSON.parse(localStorage.getItem('user')).userId;
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -21,19 +23,22 @@ function AttendanceForm() {
         }
     };
 
+    const handleSemesterChange = (e) => {
+        setSemester(e.target.value);
+    };
+
+    const handleSubjectChange = (e) => {
+        setSubject(e.target.value);
+    };
+
     return (
-        <div className="create-attendance">
-            <h2>Create Attendance</h2>
+        <div className="attendance-form">
             <form onSubmit={handleSubmit}>
-                <label>
-                    Semester:
-                    <input type="text" value={semester} onChange={(e) => setSemester(e.target.value)} />
-                </label>
-                <label>
-                    Subject:
-                    <input type="text" value={subject} onChange={(e) => setSubject(e.target.value)} />
-                </label>
-                <button type="submit">Create Attendance</button>
+                <div className="form-row">
+                    <input type="text" placeholder="Semester" value={semester} onChange={handleSemesterChange} />
+                    <input type="text" placeholder="Subject" value={subject} onChange={handleSubjectChange} />
+                    <button type="submit">Create Attendance</button>
+                </div>
             </form>
         </div>
     );

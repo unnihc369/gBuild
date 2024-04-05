@@ -1,6 +1,5 @@
-// Login.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login() {
@@ -8,6 +7,7 @@ function Login() {
         email: '',
         password: ''
     });
+    const navigate = useNavigate(); // Utilize useNavigate hook for redirection
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -17,13 +17,14 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
+
         try {
             const response = await fetch('http://localhost:8000/auth/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formData)
             });
 
             if (!response.ok) {
@@ -32,12 +33,15 @@ function Login() {
 
             const data = await response.json();
 
-            // Store the user data in localStorage
+            // Store successful login data (replace with your logic)
             localStorage.setItem('user', JSON.stringify(data.data));
-            localStorage.setItem("token", data.token);
+            localStorage.setItem("token", data.token); // Assuming you receive a token
+
             console.log('User logged in successfully:', data);
+            navigate('/'); // Redirect to Home page after successful login
         } catch (error) {
             console.error('Error logging in:', error.message);
+            // Handle errors appropriately (e.g., display error message)
         }
     };
 
@@ -61,7 +65,7 @@ function Login() {
                     onChange={handleChange}
                     required
                 />
-                <Link to='/signup'><span className='account'>Dont{`'`}t have an accout?</span></Link>
+                <Link to='/signup'><span className='account'>Don't have an account?</span></Link>
                 <button type="submit">Login</button>
             </form>
         </div>

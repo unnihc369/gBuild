@@ -4,14 +4,25 @@ import './DeadlinePage.css'
 
 function DeadlinePage() {
     const [taskName, setTaskName] = useState('');
+    const [isToday, setIsToday] = useState(true);
     const [deadlineDate, setDeadlineDate] = useState('');
     const [deadlines, setDeadlines] = useState([]);
-    const userId = JSON.parse(localStorage.getItem('user')).userId;
+    const [allDeadlines,setAllDeadlines] = useState([])
+    const userId = JSON.parse(localStorage.getItem('user')).id;
 
     const fetchTodaysDeadlines = async () => {
         try {
             const response = await axios.get(`http://localhost:8000/deadline/today/${userId}`);
             setDeadlines(response.data.deadlines);
+        } catch (error) {
+            console.error('Error fetching deadlines:', error);
+        }
+    };
+
+    const fetchDeadlines = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/deadline/${userId}`);
+            setAllDeadlines(response.data.deadlines);
         } catch (error) {
             console.error('Error fetching deadlines:', error);
         }
@@ -52,6 +63,7 @@ function DeadlinePage() {
 
     useEffect(() => {
         fetchTodaysDeadlines();
+        fetchDeadlines();
     }, [userId]);
 
     return (
@@ -65,9 +77,9 @@ function DeadlinePage() {
                 </div>
             </div>
 
-            <div>
-                <h2>Today's Deadlines</h2>
-                <ul className="deadlines-list">
+            <div className=''>
+                <div className='btn-row'><button className='btn' onClick={() => { setIsToday(true) }}>Today's Deadlines</button> <button className='btn' onClick={() => { setIsToday(false) }}>All Deadlines</button></div>
+                {isToday ? <ul className="deadlines-list">
                     {deadlines.map((deadline) => (
                         <li key={deadline.id} className="deadline-item">
                             <p>Task: {deadline.taskName}</p>
@@ -75,7 +87,16 @@ function DeadlinePage() {
                             <button onClick={() => deleteDeadline(deadline.id)} className="delete-button">Delete</button>
                         </li>
                     ))}
-                </ul>
+                </ul> : <ul className="deadlines-list">
+                    {allDeadlines.map((deadline) => (
+                        <li key={deadline.id} className="deadline-item">
+                            <p>Task: {deadline.taskName}</p>
+                            <p>Deadline Date: {deadline.deadlineDate}</p>
+                            <button onClick={() => deleteDeadline(deadline.id)} className="delete-button">Delete</button>
+                        </li>
+                    ))}
+                </ul>}
+                
             </div>
         </div>
     );

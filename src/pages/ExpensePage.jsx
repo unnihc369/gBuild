@@ -6,6 +6,7 @@ import axios from 'axios'
 function ExpensePage() {
     const [expenses, setExpenses] = useState([]);
     const [editingExpense, setEditingExpense] = useState(null);
+    const userId = JSON.parse(localStorage.getItem('user')).id;
 
     useEffect(() => {
         // Fetch expenses on component mount
@@ -14,7 +15,7 @@ function ExpensePage() {
 
     const getExpenses = async () => {
         try {
-            const userId = JSON.parse(localStorage.getItem('user')).userId;
+            const userId = JSON.parse(localStorage.getItem('user')).id;
             const response = await axios.get(`http://localhost:8000/expense/${userId}`, {
                 data: { userId },
                 headers: {

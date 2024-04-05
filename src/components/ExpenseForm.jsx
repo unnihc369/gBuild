@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 function ExpenseForm({ onSubmit, expense }) {
     const [amount, setAmount] = useState(expense ? expense.amount : '');
     const [category, setCategory] = useState(expense ? expense.category : '');
-    const userId = JSON.parse(localStorage.getItem('user')).userId;
+    const userId = JSON.parse(localStorage.getItem('user')).id;
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({ amount, category,userId });

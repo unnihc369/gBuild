@@ -11,7 +11,6 @@ import FileUploadPage from './FileUploadPage';
 function Home() {
   // Retrieve user data from localStorage
   const userData = JSON.parse(localStorage.getItem('user'));
-
   const [activeTab, setActiveTab] = useState('deadline');
 
   const tabContents = {

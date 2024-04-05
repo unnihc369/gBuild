@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AttendanceList.css'
 
 function AttendanceList() {
     const [attendanceData, setAttendanceData] = useState([]);
-    const userId = JSON.parse(localStorage.getItem('user')).userId;
+    const userId = JSON.parse(localStorage.getItem('user')).id;
 
     const handleUpdateAttendance = async (subject, id, semester, type) => {
         try {
@@ -62,10 +63,6 @@ function AttendanceList() {
         };
         fetchAttendanceData();
     }, []);
-
-    
-
-
     return (
         <div className="attendance-management">
             <div className="attendance-list">
@@ -77,8 +74,8 @@ function AttendanceList() {
                         <p>Classes Attended: {record.classesAttended}</p>
                         <p>Attendance Percentage: {((record.classesAttended / record.totalClasses) * 100).toFixed(2)}%</p>
                         <div className="button-group">
-                            <button onClick={() => handleUpdateAttendance(record.subject,record.id, record.semester, 'totalClasses')} className="update-button">Update Total Classes</button>
-                            <button onClick={() => handleUpdateAttendance(record.subject,record.id, record.semester, 'classesAttended')} className="update-button">Update Both</button>
+                            <button onClick={() => handleUpdateAttendance(record.subject, record.id, record.semester, 'totalClasses')} className="update-button">Update Total Classes</button>
+                            <button onClick={() => handleUpdateAttendance(record.subject, record.id, record.semester, 'classesAttended')} className="update-button">Update Both</button>
                         </div>
                     </div>
                 ))}
